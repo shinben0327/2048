@@ -18,7 +18,7 @@ up(),
 down(),
 left(),
 right()
-check2048()
+check2048() V
 
 while not check2048(board):
     show()
@@ -59,7 +59,7 @@ def right():
     pass
 
 
-def move(direction):
+def move(direction=input("Please type 'up' / 'down' / 'left' / 'right' and press enter: ")):
     if direction == "up":
         up()
     if direction == "down":
@@ -76,10 +76,37 @@ def move(direction):
         else:
             continue
     twofour = random.choices(  # this will randomly choose the new number that will appear
-        population = [2, 4],  # 75% of the time it will be 2, 25% of the time it will be 4
-        weights = [0.75, 0.25]
+        population=[2, 4],  # 75% of the time it will be 2, 25% of the time it will be 4
+        weights=[0.75, 0.25]
     )
     board[x][y] = twofour[0]
 
-move(left)
-show()
+
+def checkgameover():
+    numbersinboard = []
+    for row in board:
+        for number in row:
+            numbersinboard.append(number)
+    if 0 not in numbersinboard:
+        return True
+
+
+def check2048():  # this checks if 2048 is in the board
+    for row in board:
+        if 2048 in row:
+            return True
+            break
+    return False
+
+
+while not check2048():
+    show()
+    move(direction=input("Please type 'up' / 'down' / 'left' / 'right' and press enter: "))
+    if checkgameover():
+        show()
+        print("GAMEOVER")
+        break
+    if check2048():
+        show()
+        print("CONGRATULATIONS! YOU WON THE GAME!")
+        break
