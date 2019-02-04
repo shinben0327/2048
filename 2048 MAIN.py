@@ -28,7 +28,7 @@ could add score system after finishing
 """
 
 print("* Hi! This is a recreation of the game 2048 on Python. Have fun! *")  # starting message
-board = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]  # initial starting board
+board = [[0, 0, 0, 0], [0, 0, 0, 2048], [0, 0, 0, 0], [0, 0, 0, 0]]  # initial starting board
 
 
 def show():
@@ -82,7 +82,7 @@ def move(direction=input("Please type 'up' / 'down' / 'left' / 'right' and press
     board[x][y] = twofour[0]
 
 
-def checkgameover():
+def checkgameover():  # this checks if the player's board is full
     numbersinboard = []
     for row in board:
         for number in row:
@@ -99,14 +99,14 @@ def check2048():  # this checks if 2048 is in the board
     return False
 
 
-while not check2048():
+while not check2048():  # the game-play repeats until the player gets either GAMEOVER or 2048
     show()
     move(direction=input("Please type 'up' / 'down' / 'left' / 'right' and press enter: "))
     if checkgameover():
         show()
         print("GAMEOVER")
         break
-    if check2048():
-        show()
-        print("CONGRATULATIONS! YOU WON THE GAME!")
-        break
+
+if check2048():
+    show()
+    print("CONGRATULATIONS! YOU WON THE GAME!")
