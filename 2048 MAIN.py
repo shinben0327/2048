@@ -4,6 +4,7 @@ Created on Feb 3 2019
 """
 
 import random
+import sys
 
 """
 This program recreates 2048. Notes for this project will be written here
@@ -28,7 +29,7 @@ could add score system after finishing
 """
 
 print("* Hi! This is a recreation of the game 2048 on Python. Have fun! *")  # starting message
-board = [[0, 0, 0, 0], [0, 0, 0, 2048], [0, 0, 0, 0], [0, 0, 0, 0]]  # initial starting board
+board = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]  # initial starting board
 
 
 def show():
@@ -43,8 +44,8 @@ def up():
 def down():
     pass
 
-# HOW ABOUT MOVING ALL ZEROES TO THE BACK???
-def left():  # it can now move rows with ONE number
+
+"""def left():
     for i in range(4):
         for number in board[i]:
             if number == 0:
@@ -52,22 +53,46 @@ def left():  # it can now move rows with ONE number
             else:
                 board[i][board[i].index(number)] = 0
                 board[i][0] = number
-                break
+                break"""  # it can only move rows with ONE number
+"""def left():
+    for row in board:
+        for number in row:
+            if number != 0:
+                numind = row.index(number)
+                for i in range(0, numind):
+                    row.append(row[i])
+                    row.remove(row[i])
+                break"""  # does not work if zeroes are in between numbers
+def left():  # does not work if the number is at index[3]
+    for row in board:
+        counter = 0
+        for number in row:
+            if number == 0:
+                row.remove(number)
+                counter += 1
+        for i in range(counter):
+            row.append(0)
 
 
 def right():
     pass
 
 
-def move(direction=input("Please type 'up' / 'down' / 'left' / 'right' and press enter: ")):
-    if direction == "up":
+def gamequit():
+    sys.exit("THANKS FOR PLAYING!")
+
+
+def move(direction=input("Please type 'up' / 'down' / 'left' / 'right' and press enter. If you wish to quit, type 'quit' and press enter: ")):
+    if direction.lower() == "up":
         up()
-    if direction == "down":
+    if direction.lower() == "down":
         down()
-    if direction == "left":
+    if direction.lower() == "left":
         left()
-    if direction == "right":
+    if direction.lower() == "right":
         right()
+    if direction.lower() == "quit":
+        gamequit()
     while True:  # this will randomly choose where the new number will appear
         x = random.randint(0, 3)
         y = random.randint(0, 3)
