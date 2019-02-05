@@ -45,31 +45,22 @@ def down():
     pass
 
 
-"""def left():
-    for i in range(4):
-        for number in board[i]:
-            if number == 0:
-                continue
-            else:
-                board[i][board[i].index(number)] = 0
-                board[i][0] = number
-                break"""  # it can only move rows with ONE number
-"""def left():
-    for row in board:
-        for number in row:
-            if number != 0:
-                numind = row.index(number)
-                for i in range(0, numind):
-                    row.append(row[i])
-                    row.remove(row[i])
-                break"""  # does not work if zeroes are in between numbers
-def left():  # does not work if the number is at index[3]
+def left():
     for row in board:
         counter = 0
-        for number in row:
-            if number == 0:
-                row.remove(number)
-                counter += 1
+        if row[3] == 0:
+            row.remove(row[3])
+            counter += 1
+        if row[2] == 0:
+            row.remove(row[2])
+            counter += 1
+        if row[1] == 0:
+            row.remove(row[1])
+            counter += 1
+        if row[0] == 0:
+            row.remove(row[0])
+            counter += 1
+        # this is probably where I should add the identical numbers together
         for i in range(counter):
             row.append(0)
 
