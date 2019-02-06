@@ -17,7 +17,7 @@ show(), V
 move(), 
 up(),
 down(),
-left(),
+left(), V
 right()
 check2048() V
 
@@ -47,6 +47,7 @@ def down():
 
 def left():
     for row in board:
+        # this moves all the numbers
         counter = 0
         if row[3] == 0:
             row.remove(row[3])
@@ -60,7 +61,13 @@ def left():
         if row[0] == 0:
             row.remove(row[0])
             counter += 1
-        # this is probably where I should add the identical numbers together
+        # this combines the numbers if they are identical
+        for i in range(len(row)-1):
+            if row[i] == row[i+1]:
+                row[i] = row[i]*2
+                del row[i+1]
+                row.append(0)
+        # this makes sure that the row still has four numbers
         for i in range(counter):
             row.append(0)
 
@@ -73,17 +80,7 @@ def gamequit():
     sys.exit("THANKS FOR PLAYING!")
 
 
-def move(direction=input("Please type 'up' / 'down' / 'left' / 'right' and press enter. If you wish to quit, type 'quit' and press enter: ")):
-    if direction.lower() == "up":
-        up()
-    if direction.lower() == "down":
-        down()
-    if direction.lower() == "left":
-        left()
-    if direction.lower() == "right":
-        right()
-    if direction.lower() == "quit":
-        gamequit()
+def newrandnum():
     while True:  # this will randomly choose where the new number will appear
         x = random.randint(0, 3)
         y = random.randint(0, 3)
@@ -98,6 +95,21 @@ def move(direction=input("Please type 'up' / 'down' / 'left' / 'right' and press
     board[x][y] = twofour[0]
 
 
+def move(direction=input("Please type 'up' / 'down' / 'left' / 'right' and press enter. "
+                         "If you wish to quit, type 'quit' and press enter: ")):
+    if direction.lower() == "up":
+        up()
+    if direction.lower() == "down":
+        down()
+    if direction.lower() == "left":
+        left()
+    if direction.lower() == "right":
+        right()
+    if direction.lower() == "quit":
+        gamequit()
+    newrandnum()
+
+
 def checkgameover():  # this checks if the player's board is full
     numbersinboard = []
     for row in board:
@@ -105,6 +117,7 @@ def checkgameover():  # this checks if the player's board is full
             numbersinboard.append(number)
     if 0 not in numbersinboard:
         return True
+# THIS DOES NOT WORK. IF THE PLAYER CAN STILL MAKE MOVES WHEN THE BOARD IS FULL, IT SHOULD NOT STOP THE GAME
 
 
 def check2048():  # this checks if 2048 is in the board
